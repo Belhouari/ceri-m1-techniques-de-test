@@ -1,0 +1,28 @@
+name: API workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Test Maven API
+    steps:
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: 1b514fa8-56b2-4830-94de-c79acc4e85a2
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 18
+        uses: actions/setup-java@v1
+        with:
+          java-version: 19.0.2
+      - name: Run tests and collect coverage
+        run: mvn -B test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: c18a3fee-17aa-4f9a-9a76-8eb0e001bb39
