@@ -34,3 +34,5 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
