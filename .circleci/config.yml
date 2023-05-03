@@ -32,7 +32,25 @@ jobs:
           name: Javadoc
           command: mvn -DskipTests javadoc:javadoc
       - codecov/upload
-
+  docs-deploy:
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+      - attach_workspace:
+           at: target
+      - run:
+           name: Install and configure dependencies
+           command: |
+             npm install -g --silent gh-pages@2.0.1
+             git config user.email "bouchra.el-houari@alumni.univ-avignon.fr"
+             git config user.name "Belhouari"
+      - add_ssh_keys:
+        fingerprints:
+          - "SHA256:bDwueN/rgftIizyQaVKdLBw51ozAMaZvXs+XAOyKYrE"
+      - run:
+        name: Deploy docs to master branch
+        command: gh-pages --dist /target/site/apidocs
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -40,5 +58,7 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
-
+      - docs-deploy:
+          requires:
+            - build-and-test
 
