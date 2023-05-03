@@ -106,32 +106,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!-- Generation javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>id.javadoc</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                        <configuration>
-
-                        </configuration>
-                    </execution>
-
-                </executions>
-                <configuration>
-                    <source>8</source>
-                    <detectJavaApiLink>false</detectJavaApiLink>
-                    <show>private</show>
-                    <nohelp>true</nohelp>
-                    <outputDirectory>target/site/javadoc</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
+                 <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
