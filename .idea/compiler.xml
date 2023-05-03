@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ceri-m1-techniques-de-test" />
+        <module name="Test_tp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ceri-m1-techniques-de-test" target="1.8" />
+      <module name="Test_tp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
