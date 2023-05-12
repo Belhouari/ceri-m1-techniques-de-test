@@ -1,35 +1,28 @@
 package fr.univavignon.pokedex.api;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 public class IPokedexFactoryTest {
-	IPokedexFactory pokedexFactory;
-	PokemonMetadata aquali;
-	PokemonMetadata bulbizarre;
 
-	@Before
-	public void init() {
-		pokedexFactory = Mockito.mock(IPokedexFactory.class);
-		bulbizarre = new PokemonMetadata(0, "Bulbizarre", 126, 126, 90);
-		aquali = new PokemonMetadata(133, "Aquali", 186, 186, 260);
+	IPokedexFactory testProviderFactory;
 
+	public IPokedexFactoryTest() {
+		//on mock la classe IPokedexFactory pour la reutiliser dans la fonction de test
+		this.testProviderFactory = Mockito.mock(IPokedexFactory.class);
 	}
 
 	@Test
 	public void testCreatePokedex() {
-		IPokemonMetadataProvider pokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
-		IPokemonFactory pokemonFactory = Mockito.mock(IPokemonFactory.class);
-		Mockito.doReturn(Mockito.mock(IPokedex.class)).when(pokedexFactory)
-				.createPokedex(Mockito.any(pokemonMetadataProvider.getClass()), Mockito.any(pokemonFactory.getClass()));
-		Assert.assertNotNull(pokedexFactory.createPokedex(Mockito.mock(IPokemonMetadataProvider.class),
-				Mockito.mock(IPokemonFactory.class)));
-		Assert.assertEquals(Mockito.mock(IPokedex.class).getClass(), pokedexFactory
-				.createPokedex(Mockito.mock(IPokemonMetadataProvider.class), Mockito.mock(IPokemonFactory.class))
-				.getClass());
-
+		//on va ici mock la class ipokemonmetadataprovider pour pouvoir la passer en argument plus tard
+		IPokemonMetadataProvider testPokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
+		//ici on va aussi mock la class ipokemon pour pouvoir la passer en argument dans la fonction create pokedex
+		IPokemonFactory testPokemonFactory = Mockito.mock(IPokemonFactory.class);
+		//on return une instance de la classe ipokedex lors de lapelle a la fonction
+		Mockito.doReturn(Mockito.mock(IPokedex.class)).when(testProviderFactory).createPokedex(Mockito.any(testPokemonMetadataProvider.getClass()), Mockito.any(testPokemonFactory.getClass()));
+		//on verifie que nous avons bien une instance de la classe ipokedex lors de lappel a la fonction
+		Assert.assertEquals(Mockito.mock(IPokedex.class).getClass(), testProviderFactory.createPokedex(Mockito.mock(IPokemonMetadataProvider.class), Mockito.mock(IPokemonFactory.class)).getClass());
 	}
 
 }

@@ -56,7 +56,7 @@ Afin d’avoir des mocks réalistes, voici deux instances de Pokémons ainsi que
 | Métadonnée | Example1   | Example2 |
 | ---------- | ---------- |----------|
 | Index      | 0          | 133      |
-| Nom        | Bulbizarre | Aquali   |
+| Nom        | bouchra | Houari   |
 | Attaque    | 126        | 186      |
 | Défense    | 126        | 168      |
 | Endurance  | 90         | 260      |

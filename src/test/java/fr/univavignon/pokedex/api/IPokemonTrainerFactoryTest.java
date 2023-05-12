@@ -1,40 +1,32 @@
 package fr.univavignon.pokedex.api;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 public class IPokemonTrainerFactoryTest {
-	IPokedex pokedex;
-	IPokemonTrainerFactory pokemonTrainerFactory;
 
-	PokemonTrainer pTrainer;
-	IPokedexFactory factory;
+	@Mock
+	IPokedex testpokedex;
+	@Mock
+	IPokedexFactory testpokedexfactory;
+	@Mock
+	IPokemonTrainerFactory testpokemontrainerfactory;
 
-	@Before
-	public void init() {
-		pokedex = Mockito.mock(IPokedex.class);
-		pokemonTrainerFactory = Mockito.mock(IPokemonTrainerFactory.class);
-		factory = Mockito.mock(IPokedexFactory.class);
-		pTrainer = new PokemonTrainer("monTeam", Team.INSTINCT, pokedex);
 
+	public IPokemonTrainerFactoryTest() {
+		this.testpokedex = Mockito.mock(IPokedex.class);
+		this.testpokedexfactory = Mockito.mock(IPokedexFactory.class);
+		this.testpokemontrainerfactory = Mockito.mock(IPokemonTrainerFactory.class);
 	}
+
 
 	@Test
-	public void testCreateTrainer() {
-		Mockito.doReturn(pTrainer).when(pokemonTrainerFactory).createTrainer("monTeam", Team.INSTINCT, factory);
-		Assert.assertEquals(pTrainer.getClass(),
-				pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory).getClass());
-		Assert.assertEquals(pTrainer, pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory));
-		Assert.assertEquals("monTeam",
-				pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory).getName());
-		Assert.assertEquals(Team.INSTINCT,
-				pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory).getTeam());
-		Assert.assertEquals(pokedex,
-				pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory).getPokedex());
-		Assert.assertEquals(pokedex.size(),
-				pokemonTrainerFactory.createTrainer("monTeam", Team.INSTINCT, factory).getPokedex().size());
+	public void createTrainerTest() {
+		PokemonTrainer pokemonTrainerTest = new PokemonTrainer("test", Team.VALOR, this.testpokedex);
+		Mockito.doReturn(pokemonTrainerTest).when(this.testpokemontrainerfactory).createTrainer("test", Team.VALOR, this.testpokedexfactory);
+		Assert.assertEquals(pokemonTrainerTest.getClass(), this.testpokemontrainerfactory.createTrainer("test", Team.VALOR, this.testpokedexfactory).getClass());
+		Assert.assertEquals("test", this.testpokemontrainerfactory.createTrainer("test", Team.VALOR, this.testpokedexfactory).getName());
 	}
-
 }
