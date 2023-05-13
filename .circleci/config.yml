@@ -15,6 +15,10 @@ workflows:
           filters:
             branches:
               only: master
+      - javadocs
+      - push_javadocs:
+          requires:
+            - javadocs
 
 # Définit les jobs qui seront exécutés dans le workflow
 jobs:
@@ -32,6 +36,43 @@ jobs:
       # Exécute les tests unitaires
       - run: mvn clean test
       - codecov/upload
-      - run: mvn checkstyle:check
-
-
+      - run: mvn checkstyle:checkstyle-aggregate
+  javadocs:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - checkout
+      - run:
+          name: OpenJDK-PPA
+          command: sudo add-apt-repository ppa:openjdk-r/ppa
+      - run:
+          name: Update
+          command: sudo apt-get update
+      - run:
+          name: OpenJDK-Install
+          command: sudo apt-get install openjdk-11-jdk-headless -y
+      - run:
+          name: Docs-Build
+          command: javadoc -d javadocs src/main/java/fr/univavignon/pokedex/api/*
+      - persist_to_workspace:
+          root: .
+          paths: javadocs
+  push_javadocs:
+    docker:
+      - image: node:20
+    steps:
+      - checkout
+      - attach_workspace:
+          at: javadocs/
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@3.0.0
+            git config user.email "bouchra.el-houari@alumni.univ-avignon.fr"
+             git config user.name "Belhouari"
+      - add_ssh_keys:
+          fingerprints:
+            - "16:a9:61:4f:24:99:8f:50:84:e7:aa:58:fa:59:63:00"
+      - run:
+          name: Deploy javadocs
+          command: gh-pages --dist javadocs/
