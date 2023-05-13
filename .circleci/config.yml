@@ -11,6 +11,14 @@ workflows:
           filters:
             branches:
               only: master
+    deploy:
+      jobs:
+      - codecov/upload:
+          flags: -f target/site/jacoco/jacoco.xml
+    post:
+      - deploy:
+          requires:
+            - run-tests
 
 jobs:
   build_and_test:
