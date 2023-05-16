@@ -72,7 +72,7 @@ jobs:
             git config user.name "Belhouari"
       - add_ssh_keys:
           fingerprints:
-            - "85:68:d5:da:4b:37:df:5a:77:25:83:64:49:57:15:52"
+            - "47:a0:70:a7:01:5d:5f:aa:4b:c7:7e:ab:35:a5:dd:39"
       - run:
           name: Deploy javadocs
           command: gh-pages --dist javadocs/
