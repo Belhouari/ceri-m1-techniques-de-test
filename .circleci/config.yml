@@ -69,7 +69,7 @@ jobs:
           command: |
             npm install -g --silent gh-pages@3.0.0
             git config user.email "bouchra.el-houari@alumni.univ-avignon.fr"
-             git config user.name "Belhouari"
+            git config user.name "Belhouari"
       - add_ssh_keys:
           fingerprints:
             - "85:68:d5:da:4b:37:df:5a:77:25:83:64:49:57:15:52"
