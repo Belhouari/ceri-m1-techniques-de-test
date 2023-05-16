@@ -43,5 +43,4 @@ public class PokemonTrainer {
 	public IPokedex getPokedex() {
 		return pokedex;
 	}
-	
 }

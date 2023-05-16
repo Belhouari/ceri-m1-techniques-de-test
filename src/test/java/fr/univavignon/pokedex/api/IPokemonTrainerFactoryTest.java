@@ -1,32 +1,46 @@
 package fr.univavignon.pokedex.api;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class IPokemonTrainerFactoryTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-	@Mock
-	IPokedex testpokedex;
-	@Mock
-	IPokedexFactory testpokedexfactory;
-	@Mock
-	IPokemonTrainerFactory testpokemontrainerfactory;
+class IPokemonTrainerFactoryTest {
 
+    IPokemonMetadataProvider iPokemonMetadataProvider;
+    IPokemonFactory iPokemonFactory;
+    IPokedexFactory iPokedexFactory;
+    IPokedex iPokedex;
+    IPokemonTrainerFactory iPokemonTrainerFactory;
+    PokemonTrainer trainer;
 
-	public IPokemonTrainerFactoryTest() {
-		this.testpokedex = Mockito.mock(IPokedex.class);
-		this.testpokedexfactory = Mockito.mock(IPokedexFactory.class);
-		this.testpokemontrainerfactory = Mockito.mock(IPokemonTrainerFactory.class);
-	}
+    @BeforeEach
+    void initPokemonTrainer() {
+        iPokemonMetadataProvider = new PokemonMetadataProvider();
+        iPokemonFactory = new PokemonFactory(iPokemonMetadataProvider);
+        iPokedexFactory = new PokedexFactory();
+        iPokedex = new Pokedex(iPokemonMetadataProvider, iPokemonFactory);
 
+        trainer = new PokemonTrainerFactory().createTrainer("Sacha", Team.INSTINCT, iPokedexFactory);
+    }
 
-	@Test
-	public void createTrainerTest() {
-		PokemonTrainer pokemonTrainerTest = new PokemonTrainer("test", Team.VALOR, this.testpokedex);
-		Mockito.doReturn(pokemonTrainerTest).when(this.testpokemontrainerfactory).createTrainer("test", Team.VALOR, this.testpokedexfactory);
-		Assert.assertEquals(pokemonTrainerTest.getClass(), this.testpokemontrainerfactory.createTrainer("test", Team.VALOR, this.testpokedexfactory).getClass());
-		Assert.assertEquals("test", this.testpokemontrainerfactory.createTrainer("test", Team.VALOR, this.testpokedexfactory).getName());
-	}
+    @Test
+    void getTrainer() {
+        assertEquals(PokemonTrainer.class,new PokemonTrainerFactory().createTrainer("Mysterious man", Team.MYSTIC, iPokedexFactory).getClass());
+    }
+
+    @Test
+    void getTrainerName() {
+        assertEquals(trainer.getName(),trainer.getName());
+    }
+
+    @Test
+    void getTrainerTeam() {
+        assertEquals(trainer.getTeam(),trainer.getTeam());
+    }
+
+    @Test
+    void getPokedexTeam() {
+        assertEquals(trainer.getPokedex(),trainer.getPokedex());
+    }
 }

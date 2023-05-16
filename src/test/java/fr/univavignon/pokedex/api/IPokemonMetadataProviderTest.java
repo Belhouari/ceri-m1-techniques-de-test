@@ -1,36 +1,93 @@
 package fr.univavignon.pokedex.api;
 
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class IPokemonMetadataProviderTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class IPokemonMetadataProviderTest {
 
-	@Mock
-	IPokemonMetadataProvider testProvider;
+    IPokemonMetadataProvider iPokemonMetadataProvider;
+    PokemonMetadata bulbizarre;
+    PokemonMetadata aquali;
 
-	PokemonMetadata bouchra, houari;
+    @BeforeEach
+    void initPokemon() {
+        iPokemonMetadataProvider = new PokemonMetadataProvider();
+        bulbizarre = new PokemonMetadata(0,"Bulbizarre", 126, 126, 90);
+        aquali = new PokemonMetadata(133,"Aquali", 186, 168, 260);
+    }
 
-	public IPokemonMetadataProviderTest(){
-		this.testProvider = Mockito.mock(IPokemonMetadataProvider.class);
-		this.houari = new PokemonMetadata(133, "houari", 186, 168, 260);
-		this.bouchra = new PokemonMetadata(0, "bouchra", 126, 126, 90);
-	}
+    @Test
+    void getBulbizarreMetadata() throws PokedexException {
+        assertEquals(bulbizarre.getClass(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getPokemonMetadata(bulbizarre.getIndex()).getClass());
+    }
 
-	@Test
-	public void getPokemonMetadataTest() throws PokedexException {
-		Mockito.doReturn(this.bouchra).when(this.testProvider).getPokemonMetadata(0);
-		Mockito.doReturn(this.houari).when(this.testProvider).getPokemonMetadata(133);
-		Mockito.doThrow(new PokedexException("Un pokemon avec un tel index n'existe pas ! Tu n'es pas concentré ... ")).when(testProvider).getPokemonMetadata(Mockito.intThat(index -> index < 0 || index > 150));
-		Assert.assertEquals(this.bouchra, this.testProvider.getPokemonMetadata(0));
-		Assert.assertEquals(this.houari, this.testProvider.getPokemonMetadata(133));
-		Assert.assertThrows(PokedexException.class, () -> testProvider.getPokemonMetadata(-151));
-	}
+    @Test
+    void getAqualiMetadata() throws PokedexException {
+        assertEquals(aquali.getClass(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getPokemonMetadata(aquali.getIndex()).getClass());
+    }
 
+    @Test
+    void getIndexBulbizarre() throws PokedexException {
+        assertEquals(bulbizarre.getIndex(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getIndex());
+    }
 
+    @Test
+    void getIndexAquali() throws PokedexException {
+        assertEquals(aquali.getIndex(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getIndex());
+    }
 
+    @Test
+    void getNameBulbizarreMetadata() throws PokedexException{
+        assertEquals(bulbizarre.getName(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getName());
+    }
 
+    @Test
+    void getNameAqualiMetadata() throws PokedexException{
+        assertEquals(aquali.getName(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getName());
+    }
+
+    @Test
+    void getAttackBulbizarreMetadata() throws PokedexException{
+        assertEquals(bulbizarre.getAttack(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getAttack());
+    }
+
+    @Test
+    void getAttackAqualiMetadata() throws PokedexException{
+        assertEquals(aquali.getAttack(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getAttack());
+    }
+
+    @Test
+    void getDefenseBulbizarreMetadata() throws PokedexException{
+        assertEquals(bulbizarre.getDefense(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getDefense());
+    }
+
+    @Test
+    void getDefenseAqualiMetadata() throws PokedexException{
+        assertEquals(aquali.getDefense(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getDefense());
+    }
+
+    @Test
+    void getStaminaBulbizarreMetadata() throws PokedexException{
+        assertEquals(bulbizarre.getStamina(),iPokemonMetadataProvider.getPokemonMetadata(bulbizarre.getIndex()).getStamina());
+    }
+
+    @Test
+    void getStaminaAqualiMetadata() throws PokedexException{
+        assertEquals(aquali.getStamina(),iPokemonMetadataProvider.getPokemonMetadata(aquali.getIndex()).getStamina());
+    }
+
+    @Test
+    void getPokedexException() {
+        for(int i=-10; i <= -1; i++) {
+            int negatif = i;
+            assertThrows(PokedexException.class, () ->  iPokemonMetadataProvider.getPokemonMetadata(negatif));
+        }
+        for(int i=151; i <= 160; i++) {
+            int auDessus = i;
+            assertThrows(PokedexException.class, () ->  iPokemonMetadataProvider.getPokemonMetadata(auDessus));
+        }
+    }
 
 }
